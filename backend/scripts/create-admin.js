@@ -33,7 +33,7 @@ async function createAdmin() {
     if (err.code === "ER_DUP_ENTRY") {
       console.error(`Username "${username}" already exists.`);
     } else {
-      console.error("Failed to create admin:", err.message);
+      console.error("Failed to create admin:", err);
     }
   } finally {
     await pool.end();
