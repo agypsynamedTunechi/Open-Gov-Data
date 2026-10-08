@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ---------------------------------------------------------------
   async function loadData(banner) {
     try {
-      const res = await fetch(API_URL, { signal: AbortSignal.timeout(3000) });
+      const res = await fetch(API_URL, { signal: AbortSignal.timeout(15000) });
       if (!res.ok) throw new Error(`API returned ${res.status}`);
       const json = await res.json();
       return normalizeApiData(json.lgas);
