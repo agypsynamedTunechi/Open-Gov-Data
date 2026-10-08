@@ -44,6 +44,7 @@ const CATEGORY_CONFIG = {
 // CSV must have a header row: lga_name,<category fields...>,<year|month_year>
 router.post("/import", upload.single("file"), async (req, res) => {
   const { category } = req.body;
+  console.log("Import database type:", pool.isPostgres ? "PostgreSQL" : "MySQL");
   const config = CATEGORY_CONFIG[category];
 
   if (!config) {
