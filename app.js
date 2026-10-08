@@ -5,7 +5,7 @@
 // a blank page.
 /* global edoData, renderFaacChart */
 
-const API_URL = "http://localhost:3000/api/lgas";
+const API_URL = "/api/lgas";
 
 // Category definitions: each knows how to read its own value off a
 // normalized LGA record and how to label/format it. Adding a new category
