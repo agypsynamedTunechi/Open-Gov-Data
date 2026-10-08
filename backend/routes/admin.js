@@ -44,7 +44,6 @@ const CATEGORY_CONFIG = {
 // CSV must have a header row: lga_name,<category fields...>,<year|month_year>
 router.post("/import", upload.single("file"), async (req, res) => {
   const { category } = req.body;
-  console.log("Import database type:", pool.isPostgres ? "PostgreSQL" : "MySQL");
   const config = CATEGORY_CONFIG[category];
 
   if (!config) {
@@ -96,13 +95,23 @@ router.post("/import", upload.single("file"), async (req, res) => {
       const columns = ["lga_id", ...config.fields, config.periodColumn];
       const values = [lgaId, ...config.fields.map(f => row[f] || null), row[config.periodColumn]];
       const placeholders = columns.map(() => "?").join(", ");
-      const updateClause = config.fields.map(f => `${f} = VALUES(${f})`).join(", ");
 
-      await conn.query(
-        `INSERT INTO ${config.table} (${columns.join(", ")}) VALUES (${placeholders})
-         ON DUPLICATE KEY UPDATE ${updateClause}`,
-        values
-      );
+      // MySQL and Postgres use different upsert syntax. mysql2/pg driver
+      // details are abstracted in db.js, but this one query is inherently
+      // dialect-specific, so it branches explicitly on pool.isPostgres
+      // rather than trying to force one syntax to work on both engines.
+      let upsertSql;
+      if (pool.isPostgres) {
+        const updateClause = config.fields.map(f => `${f} = EXCLUDED.${f}`).join(", ");
+        upsertSql = `INSERT INTO ${config.table} (${columns.join(", ")}) VALUES (${placeholders})
+           ON CONFLICT (lga_id, ${config.periodColumn}) DO UPDATE SET ${updateClause}`;
+      } else {
+        const updateClause = config.fields.map(f => `${f} = VALUES(${f})`).join(", ");
+        upsertSql = `INSERT INTO ${config.table} (${columns.join(", ")}) VALUES (${placeholders})
+           ON DUPLICATE KEY UPDATE ${updateClause}`;
+      }
+
+      await conn.query(upsertSql, values);
       imported++;
     }
 
