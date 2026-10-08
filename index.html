@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edo State Open Data Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">Open Government Data · Edo State</p>
+      <h1>Eighteen Local Governments,<br>One Ledger.</h1>
+      <p class="header-sub">A public record of allocation, infrastructure, and reach across Edo State's local governments — cast in one place, open to inspection.</p>
+    </div>
+  </header>
+
+  <main>
+    <div id="data-source-banner" class="data-banner" hidden></div>
+
+    <section class="controls">
+      <div class="control-group">
+        <label for="lga-select">Focus on an LGA</label>
+        <select id="lga-select">
+          <option value="all">All 18 LGAs</option>
+        </select>
+      </div>
+
+      <div class="control-group tabs" id="category-tabs">
+        <button class="tab active" data-category="economy">Economy</button>
+        <button class="tab" data-category="demographics" disabled title="Data pending">Demographics</button>
+        <button class="tab" data-category="education" disabled title="Data pending">Education</button>
+        <button class="tab" data-category="health" disabled title="Data pending">Health</button>
+      </div>
+    </section>
+
+    <section class="summary-cards" id="summary-cards">
+      <!-- populated by app.js -->
+    </section>
+
+    <section class="chart-panel">
+      <div class="chart-header">
+        <h2 id="chart-title">FAAC Allocation by LGA</h2>
+        <p id="chart-subtitle" class="chart-subtitle">April 2026 · ₦ millions · Source: OurLgaMoni.com</p>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="main-chart"></canvas>
+      </div>
+    </section>
+
+    <section class="lga-detail" id="lga-detail" hidden>
+      <!-- populated when a single LGA is selected -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Data compiled from public sources including OurLgaMoni.com and the Edo State Statistical Year Book. Figures reflect a single-year snapshot and are cited by category. This is a student capstone project, not an official state publication.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="data.js"></script>
+  <script src="charts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

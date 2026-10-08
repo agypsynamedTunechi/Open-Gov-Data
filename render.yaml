@@ -1,0 +1,24 @@
+# render.yaml
+# Render "Blueprint" config -- lets Render provision the web service and
+# the PostgreSQL database together from one file, rather than clicking
+# through the dashboard manually. Optional: you can also set this up by
+# hand in Render's UI (see the deployment guide) if you prefer.
+
+services:
+  - type: web
+    name: edo-dashboard
+    runtime: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: edo-dashboard-db
+          property: connectionString
+
+databases:
+  - name: edo-dashboard-db
+    plan: free

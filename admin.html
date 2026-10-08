@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · Edo Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .admin-wrap { max-width: 560px; margin: 4rem auto; padding: 0 1.5rem; }
+  .admin-card {
+    background: var(--bg-raised); border: 1px solid var(--line);
+    border-radius: 8px; padding: 2rem;
+  }
+  .admin-card h2 { font-family: var(--font-display); margin-top: 0; }
+  .field { margin-bottom: 1.2rem; }
+  .field label { display: block; font-size: 0.8rem; color: var(--patina-light); margin-bottom: 0.4rem; }
+  .field input, .field select {
+    width: 100%; padding: 0.6rem; border-radius: 6px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--parchment); font-family: var(--font-body);
+  }
+  button.primary {
+    background: var(--patina); color: var(--bg); border: none; padding: 0.7rem 1.4rem;
+    border-radius: 6px; font-weight: 600; cursor: pointer; font-family: var(--font-body);
+  }
+  button.primary:hover { background: var(--patina-light); }
+  .msg { margin-top: 1rem; padding: 0.8rem; border-radius: 6px; font-size: 0.88rem; }
+  .msg.success { background: rgba(92,131,116,0.2); border: 1px solid var(--patina); }
+  .msg.error { background: rgba(180,80,60,0.15); border: 1px solid #b4503c; }
+  .hidden { display: none; }
+  .logout-link { color: var(--parchment-dim); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+  .logs-list { margin-top: 1.5rem; font-size: 0.85rem; color: var(--parchment-dim); }
+  .logs-list li { margin-bottom: 0.4rem; }
+</style>
+</head>
+<body>
+  <div class="admin-wrap">
+
+    <div id="login-view" class="admin-card">
+      <h2>Admin Login</h2>
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="current-password">
+      </div>
+      <button class="primary" id="login-btn">Log in</button>
+      <div id="login-msg"></div>
+    </div>
+
+    <div id="import-view" class="admin-card hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Import Data</h2>
+        <span class="logout-link" id="logout-btn">Log out</span>
+      </div>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="demographics">Demographics</option>
+          <option value="education">Education</option>
+          <option value="health">Health</option>
+          <option value="economy">Economy (FAAC)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="csv-file">CSV File</label>
+        <input type="file" id="csv-file" accept=".csv">
+      </div>
+
+      <button class="primary" id="import-btn">Upload &amp; Import</button>
+      <div id="import-msg"></div>
+
+      <ul class="logs-list" id="logs-list"></ul>
+    </div>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
